@@ -19,7 +19,7 @@ st.markdown(hide_st_style, unsafe_allow_html=True)
 
 st.title("Neuron Simulation")
 
-neuron_type = ['Select Neuron','Leaky Fire-and-Integrate (LIF)','Hodgkin-Huxley (HH)', 'FitzHugh-Nagumo Model (FHN)','Morris-Lecar Model (ML):','AdEx Model (Adaptive Exponential Integrate-and-Fire)']
+neuron_type = ['Select Neuron','Leaky Fire-and-Integrate (LIF)','Hodgkin-Huxley (HH)', 'FitzHugh-Nagumo Model (FHN)','Morris-Lecar Model (ML)','AdEx Model (Adaptive Exponential Integrate-and-Fire)']
 
 col_neuron, col_network = st.columns(2)
 

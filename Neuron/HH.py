@@ -6,6 +6,6 @@ class HHNeuron:
         self.equation3 = "\\frac{dn}{dt}  = \\frac{(n_∞(V) - n)}{τ_n(V)}"
         self.equation4 = "\\frac{dm}{dt}  = \\frac{(m_∞(V) - m)}{τ_m(V)}"
          
-        self.properties = ['Membrane Potential', 'Resting Potential', 'Membrane Time Constant', 'Membrane Resistance', 'Input Current', 'Membrane Treshold']
+        self.properties = ['Membrane Potential']
 
 neuron = HHNeuron()
