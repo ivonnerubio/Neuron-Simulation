@@ -85,8 +85,24 @@ vr = -70e-3      # milivolt
 vth = -50e-3     # milivolt
 r = 100e6        # ohm
 i_mean = 25e-11  # ampere
+
+
+vRest = -70
+vThreshold = -55
+
+
+
+
+
+
+
+
+
+
+
+
 # Set random number generator
-np.random.seed(199)
+np.random.seed(200 )
 
 # Initialize step_end and v
 step_end = int(t_max / dt)
@@ -98,6 +114,12 @@ plt.figure()
 plt.title('$V_m$ with random I(t)')
 plt.xlabel('time (s)')
 plt.ylabel('$V_m$ (V)')
+
+
+leakPotential = -70
+
+
+
 
   # loop for step_end steps
 for step in range(step_end):
@@ -112,34 +134,65 @@ for step in range(step_end):
     i =  i_mean * (1 + 0.1 * (t_max / dt)**(0.5) * random_num)
 
     # Compute v
-    v = v + dt/tau * (el - v + r*i)
+    #v = v + dt/tau * (el - v + r*i)
+    v = .5 
 
     # Plot v (using 'k.' to get even smaller markers)
+    plt.ylim(0,1)
     plt.plot(t, v, 'k.')
 
 
 
 
 
-step_end = 25
+# step_end = 25
 
-  # Initialize the figure
-plt.figure()
-plt.title('Synaptic Input $I(t)$')
-plt.xlabel('time (s)')
-plt.ylabel('$I$ (A)')
+#   # Initialize the figure
+# plt.figure()
+# plt.title('Synaptic Input $I(t)$')
+# plt.xlabel('time (s)')
+# plt.ylabel('$I$ (A)')
 
-  # Loop for step_end steps
-for step in range(step_end):
+#   # Loop for step_end steps
+# for step in range(step_end):
 
-    # Compute value of t
-    t = step * dt
+#     # Compute value of t
+#     t = step * dt
 
-    # Compute value of i at this time step
-    i = i_mean * (1 + np.sin((t * 2 * np.pi) / 0.01))
+#     # Compute value of i at this time step
+#     i = i_mean * (1 + np.sin((t * 2 * np.pi) / 0.01))
 
-    # Plot i (use 'ko' to get small black dots (short for color='k' and marker = 'o'))
-    plt.plot(t, i, 'ko')
+#     # Plot i (use 'ko' to get small black dots (short for color='k' and marker = 'o'))
+#     plt.plot(t, i, 'ko')
 
-  # Display the plot
-plt.show()
+#   # Display the plot
+# plt.show()
+
+
+
+EL = -70 # mV
+RI = 10e6 # MΩ
+τm = 33.3 # ms
+I = 1 # nA
+Vrest = -70 # mV
+Vthreshold = -55 # mV
+Vm = Vrest
+dt = 0.1 # ms
+t = 0 # ms
+step_end = 100
+
+arra = np.zeros(step_end)
+
+for step in range(step_end): # ms
+    I = np.random.uniform(low=-0.1, high=0.1)
+    dVm = (EL - Vm + RI * I) * dt / τm
+    Vm = Vm + dVm
+    print(dVm, Vm)
+    if Vm >= Vthreshold:
+        Vm = Vrest
+    t = t + dt
+    arra[step] = Vm
+    print()
+
+
+print(arra)
