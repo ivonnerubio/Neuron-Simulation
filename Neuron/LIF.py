@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import brian2 as b2
 
 class LIFNeuron:
     def __init__(self, tau_m, v_rest, v_threshold, v_reset, delta_t):
@@ -11,9 +12,20 @@ class LIFNeuron:
         self.v = v_rest
         self.spike = False
         self.i_mean = 25e-11
+        
 
         self.description = "The LIF model consists of a membrane potential that integrates incoming signals (from synapses) until it reaches a certain threshold. Once the threshold is reached, the membrane potential fires (emits a spike) and is reset to a resting potential. The membrane potential decays (leaks) back to the resting potential at a slower rate between spikes."
-        self.equation = "\\frac{dV}{dt} = \\frac{v_{rest} - v + i_{input}}{\\tau_m}"
+        self.equation = "\\tau_m \\frac{dV}{dt} = E_L - V + R_m I_e"
+        self.equationDescription = """
+                                    \\tau_m = Time Constant  \n
+                                    \\frac{dV}{dt} = Membrane Potential \n
+                                    E_L = Resting Potential \n
+                                    V = Voltage \n
+                                    R_m = Total Membrane Resistance \n
+                                    I_e = Input \n
+                                    """
+
+        self.equation2 = "\\frac{dV}{dt} = \\frac{v_{rest} - v + i_{input}}{\\tau_m}"
         self.properties = ['Membrane Potential', 'Resting Potential', 'Membrane Time Constant', 'Membrane Resistance', 'Input Current', 'Membrane Treshold']
 
     def update(self, i_input):
@@ -27,6 +39,29 @@ class LIFNeuron:
             self.v = self.v_reset
         else:
             self.spike = False
+
+    def fire(self,maxTime):
+        tau_m = 10.0
+        Vth = -55 # Threshold Value, Units: mV , range is -55 to -50 mV
+        Vrest = -70 # Units: mV
+        E_L = 0
+
+
+
+        
+t_max = 150e-3   # second
+dt = 1e-3        # second
+tau = 20e-3      # second
+el = -60e-3      # milivolt
+vr = -70e-3      # milivolt
+vth = -50e-3     # milivolt
+r = 100e6        # ohm
+i_mean = 25e-11  # ampere
+
+print(t_max, dt, tau, el, vr, vth, r, i_mean)
+
+
+
 
 
 
@@ -145,28 +180,61 @@ for step in range(step_end):
 
 
 
-# step_end = 25
+EL = -70 # mV
+RI = 10e6 # MΩ
+τm = 33.3 # ms
+I = 1 # nA
+Vrest = -70 # mV
+Vthreshold = 2 # mV
+Vm = Vrest
+dt = 0.1 # ms
+t = 0 # ms
+step_end = 100
 
-#   # Initialize the figure
-# plt.figure()
-# plt.title('Synaptic Input $I(t)$')
-# plt.xlabel('time (s)')
-# plt.ylabel('$I$ (A)')
 
-#   # Loop for step_end steps
-# for step in range(step_end):
 
-#     # Compute value of t
-#     t = step * dt
+t_max = 150e-3   # second
+dt = 1e-3        # second
+tau = 20e-3      # second
+el = -60e-3      # milivolt
+vr = -70e-3      # milivolt
+vth = -50e-3     # milivolt
+r = 100e6        # ohm
+i_mean = 25e-11  # ampere
 
-#     # Compute value of i at this time step
-#     i = i_mean * (1 + np.sin((t * 2 * np.pi) / 0.01))
+print(t_max, dt, tau, el, vr, vth, r, i_mean)
 
-#     # Plot i (use 'ko' to get small black dots (short for color='k' and marker = 'o'))
-#     plt.plot(t, i, 'ko')
+step_end = 25
 
-#   # Display the plot
-# plt.show()
+  # Initialize the figure
+plt.figure()
+plt.title('Synaptic Input $I(t)$')
+plt.xlabel('time (s)')
+plt.ylabel('$I$ (A)')
+
+  # Loop for step_end steps
+for step in range(step_end):
+
+    # Compute value of t
+    t = step * dt
+
+    # Compute value of i at this time step
+    i = np.random.uniform(low=.1, high =1)
+
+    dVm = (el - Vm + r  * i) * dt / τm
+    Vm = Vm + dVm
+    
+    # if Vm >= Vthreshold:
+    #     Vm = Vrest
+    # t = t + dt
+
+
+
+    # Plot i (use 'ko' to get small black dots (short for color='k' and marker = 'o'))
+    plt.plot(t, Vm, 'ko')
+
+  # Display the plot
+plt.show()
 
 
 
@@ -175,7 +243,7 @@ RI = 10e6 # MΩ
 τm = 33.3 # ms
 I = 1 # nA
 Vrest = -70 # mV
-Vthreshold = -55 # mV
+Vthreshold = -55 # mV 
 Vm = Vrest
 dt = 0.1 # ms
 t = 0 # ms
@@ -187,12 +255,60 @@ for step in range(step_end): # ms
     I = np.random.uniform(low=-0.1, high=0.1)
     dVm = (EL - Vm + RI * I) * dt / τm
     Vm = Vm + dVm
-    print(dVm, Vm)
+    
     if Vm >= Vthreshold:
         Vm = Vrest
     t = t + dt
     arra[step] = Vm
-    print()
+    plt.plot(step,Vm)
+ 
 
 
-print(arra)
+print(len(arra))
+
+plt.show()
+
+
+count=0
+for step in range(10):
+    count += 1
+    I = np.random.uniform(low=1,high =10)
+    
+    if(I > 5):
+        I = 0
+
+    plt.plot(count,I)
+
+plt.show()
+
+
+
+
+
+
+
+
+
+V_REST = -70*b2.mV
+V_RESET = -65*b2.mV
+FIRING_THRESHOLD = -50*b2.mV
+MEMBRANE_RESISTANCE = 10. * b2.Mohm
+MEMBRANE_TIME_SCALE = 8. * b2.ms
+ABSOLUTE_REFRACTORY_PERIOD = 2.0 * b2.ms
+
+from neurodynex3.leaky_integrate_and_fire import LIF
+from neurodynex3.tools import input_factory
+
+# create a step current with amplitude = I_min
+step_current = input_factory.get_step_current(
+    t_start=5, t_end=100, unit_time=b2.ms,
+    amplitude=I_min)  # set I_min to your value
+
+# run the LIF model.
+# Note: As we do not specify any model parameters, the simulation runs with the default values
+(state_monitor,spike_monitor) = LIF.simulate_LIF_neuron(input_current=step_current, simulation_time = 100 * b2.ms)
+
+# plot I and vm
+plot_tools.plot_voltage_and_current_traces(
+state_monitor, step_current, title="min input", firing_threshold=LIF.FIRING_THRESHOLD)
+print("nr of spikes: {}".format(spike_monitor.count[0]))  # should be 0

@@ -34,6 +34,9 @@ with col_neuron:
     if(selected_neuron_type == neuron_type[1]):
         st.caption(lif.neuron.description)
         st.latex(lif.neuron.equation)
+        st.markdown(lif.neuron.equationDescription)
+        
+        
         with st.expander("Edit Properties"):
             for property in lif.neuron.properties:
                 property = st.slider(property, 0, 130, 25)
