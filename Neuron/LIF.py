@@ -3,16 +3,18 @@ import numpy as np
 
 
 class LIFNeuron:
-    def __init__(self, tau_m, v_rest, v_threshold, v_reset, delta_t):
-        self.tau_m = tau_m
-        self.v_rest = v_rest
-        self.v_threshold = v_threshold
-        self.v_reset = v_reset
-        self.delta_t = delta_t
-        self.v = v_rest
-        self.spike = False
-        self.i_mean = 25e-11
-        
+    def __init__(self, t_max, dt, tau, el, v_reset,vth, r, i_mean):
+
+        self.t_max = 150e-3   # second
+        self.dt = 1e-3        # second
+        self.tau = 20e-3      # second
+        self.el = -60e-3      # milivolt
+        self.v_reset = -70e-3 # milivolt
+        self.vth = -50e-3     # milivolt
+        self.r = 100e6        # ohm
+        self.i_mean = 25e-11  # ampere
+
+
 
         self.description = "The LIF model consists of a membrane potential that integrates incoming signals (from synapses) until it reaches a certain threshold. Once the threshold is reached, the membrane potential fires (emits a spike) and is reset to a resting potential. The membrane potential decays (leaks) back to the resting potential at a slower rate between spikes."
         self.equation = "\\tau_m \\frac{dV}{dt} = E_L - V + R_m I_e"
@@ -45,6 +47,40 @@ class LIFNeuron:
         Vth = -55 # Threshold Value, Units: mV , range is -55 to -50 mV
         Vrest = -70 # Units: mV
         E_L = 0
+
+    def GenerateInputCurrent(self,RandomSeed):
+        """
+        Full Equation Below:
+            input_current = i_mean * (1 + 0.1 * (t_max/dt) ** (0.5) * (2 * np.random.random(step_end) - 1)))   
+
+        Args:
+            None
+
+        Returns:
+            An Array with input simulated over time
+
+        """
+
+        # Set random number generator
+        np.random.seed(RandomSeed)
+
+        
+        # Step 1: Create a scale factor by calculating the standard deviation or square root of t_max divided by dt 
+        temp = (self.t_max/self.dt) ** (0.5)
+
+        # Step 2: Generate an array of random values 
+        rand_array = np.random.random(self.step_end)
+
+        # Step 3: Scale the random values to have a range of -1:1
+        scaled_rand = 2 * rand_array - 1
+
+        # Step 4: Calculate the noise component
+        noise = 0.1 * temp * scaled_rand
+
+        # Step 5: Multiple my the input mean and add 1 to the noise component
+        input_current = self.i_mean * (1 + noise)
+
+        return input_current
 
 
 
