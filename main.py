@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 from Neuron import LIF as lif
 from Neuron import HH as hh
@@ -43,11 +43,12 @@ with col_neuron:
 
         st.text("Model")
 
-        LIFNeuron = lif(150e-3)
-        print(LIFNeuron.t_max)
+        t_range, input_current,v = lif.modelNeuron()
 
-        #creating a sample array
-        a = np.random.normal(1, 1, size=50)
+        st.pyplot(lif.plotVm(t_range,v))
+
+        st.pyplot(lif.plotInputCurrent(t_range, input_current))
+
 
         #specifying the figure to plot 
       #  fig, x = plt.subplots()
