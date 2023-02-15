@@ -1,40 +1,59 @@
+import brian2 as b2
+import random
 import matplotlib.pyplot as plt
 import numpy as np
 
 
+class LIFNeuron:
 
-# Define simulation parameters
-dt = 0.01 # time step
-T = .1 # total simulation time
-t = np.arange(0, T, dt) # time array
-t_max = 150e-3   # second
-dt = 1e-3        # second
-tau = 20e-3      # second
-el = -60e-3      # milivolt
-vr = -70e-3      # milivolt
-vth = -50e-3     # milivolt
-r = 100e6        # ohm
-i_mean = 25e-11  # ampere
+    def __init__(self, 
+                t_max,
+                dt,
+                tau,
+                el,
+                v_reset,
+                vth,
+                r,
+                i_mean,):
+        self.t_max = t_max
+        self.dt = dt
+        self.tau = tau
+        self.el = el
+        self.v_reset = v_reset
+        self.vth = vth
+        self.r = r
+        self.i_mean = i_mean
 
-I = i_mean * (1 + 0.1 * (t_max / dt ) ** 0.5 * np.random.random() -1 )
-print(I)
 
-plt.figure()
-plt.xlabel("LIF Neuron with random I")
+    def GenerateInputCurrent(t_max, dt, step_end, i_mean):
+        """
+        Full Equation Below:
+            input_current = i_mean * (1 + 0.1 * (t_max/dt) ** (0.5) * (2 * np.random.random(step_end) - 1)))   
 
-np.random.seed(2023)
-for step in range(len(t)):
-   # I = np.random.uniform(low=-0.1, high=0.1)'
-    #I = np.random.random()
-    print('I ==',I)
-    dVm = (el - vr + r * I ) / tau
-    if(dVm >= vth):
-        dVm = 0
-   # print(dVm)
-    #t[step] = dVm
-    plt.plot(t[step],dVm,'ro')
-   # print(t[step])
+        Args:
+            None
 
-    
+        Returns:
+            An Array with input simulated over time
 
-plt.show()
+        """
+
+     
+        # Step 1: Create a scale factor by calculating the standard deviation or square root of t_max divided by dt 
+        temp = (t_max/dt) ** (0.5)
+
+        # Step 2: Generate an array of random values 
+        rand_array = np.random.random(step_end)
+
+        # Step 3: Scale the random values to have a range of -1:1
+        scaled_rand = 2 * rand_array - 1
+
+        # Step 4: Calculate the noise component
+        noise = 0.1 * temp * scaled_rand
+
+        # Step 5: Multiple my the input mean and add 1 to the noise component
+        input_current = i_mean * (1 + noise)
+
+        return input_current
+
+

@@ -3,7 +3,7 @@ import numpy as np
 
 
 class LIFNeuron:
-    def __init__(self, t_max, dt, tau, el, v_reset,vth, r, i_mean):
+    def __init__(self, t_max, dt, tau, el, v_reset,vth, r, i_mean, random_seed):
 
         self.t_max = 150e-3   # second
         self.dt = 1e-3        # second
@@ -13,6 +13,7 @@ class LIFNeuron:
         self.vth = -50e-3     # milivolt
         self.r = 100e6        # ohm
         self.i_mean = 25e-11  # ampere
+        self.random_seed = 1999 
 
 
 
@@ -29,26 +30,9 @@ class LIFNeuron:
 
         self.equation2 = "\\frac{dV}{dt} = \\frac{v_{rest} - v + i_{input}}{\\tau_m}"
         self.properties = ['Membrane Potential', 'Resting Potential', 'Membrane Time Constant', 'Membrane Resistance', 'Input Current', 'Membrane Treshold']
+  
 
-    def update(self, i_input):
-        # Update membrane potential
-        dv = (self.v_rest - self.v + i_input * self.delta_t) / self.tau_m
-        self.v += dv * self.delta_t
-
-        # Check if the treshold is reached
-        if self.v >= self.v_threshold:
-            self.spike = True
-            self.v = self.v_reset
-        else:
-            self.spike = False
-
-    def fire(self,maxTime):
-        tau_m = 10.0
-        Vth = -55 # Threshold Value, Units: mV , range is -55 to -50 mV
-        Vrest = -70 # Units: mV
-        E_L = 0
-
-    def GenerateInputCurrent(self,RandomSeed):
+    def GenerateInputCurrent(self):
         """
         Full Equation Below:
             input_current = i_mean * (1 + 0.1 * (t_max/dt) ** (0.5) * (2 * np.random.random(step_end) - 1)))   
@@ -62,7 +46,7 @@ class LIFNeuron:
         """
 
         # Set random number generator
-        np.random.seed(RandomSeed)
+        np.random.seed(self.random_seed)
 
         
         # Step 1: Create a scale factor by calculating the standard deviation or square root of t_max divided by dt 
@@ -83,6 +67,41 @@ class LIFNeuron:
         return input_current
 
 
+    def Fire():
+
+        # Simulate current over time
+        input_current = GenerateInputCurrent(neuron)
+
+
+
+        # Loop for step_end steps
+        for step in range(1, step_end):
+
+        # Compute v as function of i
+            v[step] = v[step - 1] + (dt / tau) * (el - v[step - 1] + r * input_current[step])
+
+            if (v[step]> vth):
+                v[step] = v_reset
+                
+            
+
+        # Plot membrane potential
+
+        plt.figure()
+        plt.title('$V_m$ with random I(t)')
+        plt.xlabel('time (s)')
+        plt.ylabel('$V_m$ (V)')
+
+
+        plt.axhline(y=vth, color ='r', label='V Threshold')
+        plt.axhline(y=v_reset, color='k', label="V Reset")
+        plt.legend(loc="upper right")
+        plt.plot(t_range, v, 'k')
+        plt.show()
+
+        plt.figure()
+        plt.title('Random Input $(I)$ ')
+        plt.plot(t_range, input_current,'k')
 
 
 
@@ -90,5 +109,6 @@ class LIFNeuron:
 
 
 
-neuron = LIFNeuron(tau_m=10.0, v_rest=-70.0, v_threshold=-55.0, v_reset=-75.0, delta_t=0.1)
+
+
 
