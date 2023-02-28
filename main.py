@@ -29,25 +29,34 @@ with col_neuron:
     st.subheader("Neuron")
     selected_neuron_type = st.selectbox("Choose a neuron:", neuron_type)
     st.text("Description")
+    neuron = lif.LIFNeuron()
 
+    neuron = lif.LIFNeuron()
+    st.text(lif.LIFNeuron.getProperties(neuron)[1][0])
     # LIF Neuron
     if(selected_neuron_type == neuron_type[1]):
-        st.caption(lif.neuron.description)
-        st.latex(lif.neuron.equation)
-        st.markdown(lif.neuron.equationDescription)
-        
+        st.caption(lif.LIFNeuron.getDescription(neuron))
+        st.latex(lif.LIFNeuron.getEquation(neuron))
+        st.markdown(lif.LIFNeuron.getEquationDescription(neuron))
+        # st.text(lif.LIFNeuron.getProperties)
         
         with st.expander("Edit Properties"):
-            for property in lif.neuron.properties:
-                property = st.slider(property, 0, 130, 25)
+            for property in lif.LIFNeuron.getProperties(neuron):
+              label = property[0]
+              min_val = property[1]
+              max_val = property[2]
+              default_val = property[3]
+              property = st.slider(label, min_val, max_val, default_val)
 
         st.text("Model")
 
-        t_range, input_current,v = lif.modelNeuron()
+        vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
 
-        st.pyplot(lif.plotVm(t_range,v))
+        st.pyplot(vMFig)
+        st.pyplot(IFig)
+        # st.pyplot(lif.LIFNeuron.plotVm(t_range,v))
 
-        st.pyplot(lif.plotInputCurrent(t_range, input_current))
+        # st.pyplot(lif.LIFNeuron.plotInputCurrent(t_range, input_current))
 
 
         #specifying the figure to plot 
