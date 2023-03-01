@@ -30,6 +30,7 @@ with col_neuron:
     selected_neuron_type = st.selectbox("Choose a neuron:", neuron_type)
     st.text("Description")
     neuron = lif.LIFNeuron()
+    vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
 
     neuron = lif.LIFNeuron()
     st.text(lif.LIFNeuron.getProperties(neuron)[1][0])
@@ -48,9 +49,24 @@ with col_neuron:
               default_val = property[3]
               property = st.slider(label, min_val, max_val, default_val)
 
+              def myFunkyFunc(property):
+                if property == "Membrane Treshold":
+                    neuron.setVth(property)
+                #neuron.setDt(property)
+                vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
+                
+                return neuron.getVth
+              
+              st.write('Output:', myFunkyFunc(property))
+        
+
+
+
+       
+
         st.text("Model")
 
-        vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
+        # vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
 
         st.pyplot(vMFig)
         st.pyplot(IFig)
@@ -88,3 +104,17 @@ with col_neuron:
 
 with col_network:
     st.subheader("Network")
+    # Define the slider
+    x = st.slider('Select a value', 0, 10, 5)
+
+    # Define a function that takes in the slider value and returns the output
+    def my_function(x):
+        return x**2
+
+    # Use st.write to display the output
+    st.write('Output:', my_function(x))
+
+    # Wrap the slider and function call in a while loop to update the output in real-time
+    while True:
+        new_x = st.slider('Select a value', 0, 10, 5)
+        st.write('Output:', my_function(new_x))

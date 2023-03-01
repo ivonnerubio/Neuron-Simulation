@@ -5,4 +5,4 @@ neuron = lif.LIFNeuron()
 
 
 
-print(lif.LIFNeuron.getProperties(neuron)[1])
+print(lif.LIFNeuron.getProperties(neuron))
