@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.widgets import Slider, Button
 
 from Neuron import LIF as lif
 from Neuron import HH as hh
@@ -33,7 +34,7 @@ with col_neuron:
     vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
 
     neuron = lif.LIFNeuron()
-    st.text(lif.LIFNeuron.getProperties(neuron)[1][0])
+   
     # LIF Neuron
     if(selected_neuron_type == neuron_type[1]):
         st.caption(lif.LIFNeuron.getDescription(neuron))
@@ -47,15 +48,19 @@ with col_neuron:
               min_val = property[1]
               max_val = property[2]
               default_val = property[3]
-              property = st.slider(label, min_val, max_val, default_val)
+              st.text(property[0])
+              propertySlider = st.slider(label, min_val, max_val, default_val)
 
               def myFunkyFunc(property):
-                if property == "Membrane Treshold":
-                    neuron.setVth(property)
+                retVal = 0
+                st.text(property)
+                if property == 25:
+                    retVal = 25
+                    #neuron.setVth(property)
                 #neuron.setDt(property)
-                vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
+                #vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
                 
-                return neuron.getVth
+                return retVal
               
               st.write('Output:', myFunkyFunc(property))
         
@@ -86,35 +91,22 @@ with col_neuron:
 
     # HH Neuron
     elif(selected_neuron_type == neuron_type[2]):
-        st.caption(hh.neuron.description)
+          st.caption(hh.neuron.description)
 
-        st.latex(hh.neuron.equation1)
-        st.latex(hh.neuron.equation2)
-        st.latex(hh.neuron.equation3)
-        st.latex(hh.neuron.equation4)
+          st.latex(hh.neuron.equation1)
+          st.latex(hh.neuron.equation2)
+          st.latex(hh.neuron.equation3)
+          st.latex(hh.neuron.equation4)
 
-        with st.expander("Edit Properties"):
-            for property in hh.neuron.properties:
-                property = st.slider(property, 0, 130, 25)
-
-
+          with st.expander("Edit Properties"):
+              for property in hh.neuron.properties:
+                  property = st.slider(property, 0, 130, 25)
 
 
-        
+
+
+          
 
 with col_network:
-    st.subheader("Network")
-    # Define the slider
-    x = st.slider('Select a value', 0, 10, 5)
-
-    # Define a function that takes in the slider value and returns the output
-    def my_function(x):
-        return x**2
-
-    # Use st.write to display the output
-    st.write('Output:', my_function(x))
-
-    # Wrap the slider and function call in a while loop to update the output in real-time
-    while True:
-        new_x = st.slider('Select a value', 0, 10, 5)
-        st.write('Output:', my_function(new_x))
+      st.subheader("Network")
+      st.plot(lif.LIFNeuron.clickableFig())
