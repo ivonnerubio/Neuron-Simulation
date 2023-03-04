@@ -33,13 +33,13 @@ with col_neuron:
     neuron = lif.LIFNeuron()
     vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
 
-    neuron = lif.LIFNeuron()
+    #neuron = lif.LIFNeuron(-70e-3,-50e-3,1999)
    
     # LIF Neuron
     if(selected_neuron_type == neuron_type[1]):
         st.caption(lif.LIFNeuron.getDescription(neuron))
         st.latex(lif.LIFNeuron.getEquation(neuron))
-        st.markdown(lif.LIFNeuron.getEquationDescription(neuron))
+        #st.markdown(lif.LIFNeuron.getEquationDescription(neuron))
         # st.text(lif.LIFNeuron.getProperties)
         
         with st.expander("Edit Properties"):
@@ -48,21 +48,25 @@ with col_neuron:
               min_val = property[1]
               max_val = property[2]
               default_val = property[3]
-              st.text(property[0])
-              propertySlider = st.slider(label, min_val, max_val, default_val)
 
-              def myFunkyFunc(property):
-                retVal = 0
-                st.text(property)
-                if property == 25:
-                    retVal = 25
-                    #neuron.setVth(property)
-                #neuron.setDt(property)
-                #vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
+              propertySlider = st.slider(label, min_val, max_val, default_val)
+    
+              def updateLIFNeuronProperties(property):
+                valReturn = 0
+                propertyName = str(property[0])
+                #st.text("property:" + str(property[0]))
+                propertyValue = propertySlider
+
+                if propertyName == "Input Current Mean (25e-11)":
+                    lif.LIFNeuron.GenerateInputCurrent(neuron,10)
+                elif propertyName == "Membrane Treshold (-50e-3)":
+                    lif.LIFNeuron.setVth = propertyValue
+                    valReturn = lif.LIFNeuron.getVth(neuron)
                 
-                return retVal
+                
+                return valReturn
               
-              st.write('Output:', myFunkyFunc(property))
+              st.write('Output:', updateLIFNeuronProperties(property))
         
 
 
@@ -109,4 +113,5 @@ with col_neuron:
 
 with col_network:
       st.subheader("Network")
-      st.plot(lif.LIFNeuron.clickableFig())
+      # st.pyplot(lif.LIFNeuron.clickableFig())
+      

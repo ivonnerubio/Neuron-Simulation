@@ -15,6 +15,15 @@ class LIFNeuron:
         self.i_mean = 25e-11  # ampere
         self.random_seed = 1999 
 
+        # self.t_max = t_max   # second
+        # self.dt = dt        # second
+        # self.tau = tau      # second
+        # self.el = el     # milivolt
+        # self.v_reset = v_reset # milivolt
+        # self.vth = vth    # milivolt
+        # self.r = r    # ohm
+        # self.i_mean = i_mean  # ampere
+        # self.random_seed = random_seed 
 
 
         self.description = "The LIF model consists of a membrane potential that integrates incoming signals (from synapses) until it reaches a certain threshold. Once the threshold is reached, the membrane potential fires (emits a spike) and is reset to a resting potential. The membrane potential decays (leaks) back to the resting potential at a slower rate between spikes."
@@ -49,6 +58,18 @@ class LIFNeuron:
 
 # neuron = LIFNeuron(t_max, dt, tau, el, v_reset,vth, r, i_mean, random_seed)
 
+    # def setDefaultParameters(self):
+    #     t_max = self.t_max = 150e-3   # second
+    #     dt = self.dt = 1e-3        # second
+    #     tau = self.tau = 20e-3      # second
+    #     el = self.el = -60e-3      # milivolt
+    #     v_reset = self.v_reset = -70e-3 # milivolt
+    #     vth = self.vth = -50e-3     # milivolt
+    #     r = self.r = 100e6        # ohm
+    #     i_mean = self.i_mean = 25e-11  # ampere
+    #     random_seed = self.random_seed = 1999 
+
+    #     return t_max, dt, tau, el, v_reset,vth, r, i_mean, random_seed
 
 
     def GenerateInputCurrent(self,step_end):
@@ -116,7 +137,7 @@ class LIFNeuron:
                 v[step] = self.v_reset
 
 
-        # Plot VM
+        # PLOT VM
         VmFig = plt.figure()
         plt.title('$V_m$ with random I(t)')
         plt.xlabel('time (s)')
@@ -141,7 +162,7 @@ class LIFNeuron:
 
 
 
-
+    # PLOTTING FUNCTIONS
     def plotVm(self,t_range, v):
         fig = plt.figure()
         plt.title('$V_m$ with random I(t)')
@@ -157,7 +178,7 @@ class LIFNeuron:
 
         return fig
 
-
+    # PLOTTING FUNCTIONS
     def plotInputCurrent(t_range, input_current):
         fig = plt.figure()
         plt.title('Random Input $(I)$ ')
@@ -168,7 +189,7 @@ class LIFNeuron:
         return fig
 
 
-    # Getters and Setters
+    # GETTERS AND SETTERS
     def getT_max(self):
         return self.t_max
     def setT_max(self,t_max):
@@ -242,24 +263,3 @@ class LIFNeuron:
         print("Properties: ", self.properties)
         return self.getProperties
     
-
-    def clickableFig():
-        from matplotlib.widgets import Slider
-        
-        x = np.linspace(0, 3, 300)
-        y = np.sin(5 * np.pi * x)
-        
-        fig, ax = plt.subplots()
-        fig.subplots_adjust(bottom=0.2)
-        l, = ax.plot(x, y)
-        
-        def onChange(value):
-            l.set_ydata(np.sin(value * np.pi * x))
-            fig.canvas.draw_idle()
-        
-        slideraxis = fig.add_axes([0.25, 0.1, 0.65, 0.03])
-        slider = Slider(slideraxis, label='Frequency [Hz]',
-                        valmin=0, valmax=10, valinit=5)
-        slider.on_changed(onChange)
-        plt.show()
-        return plt
