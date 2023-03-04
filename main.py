@@ -1,7 +1,5 @@
 import streamlit as st
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button
 
 from Neuron import LIF as lif
 from Neuron import HH as hh
