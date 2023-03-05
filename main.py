@@ -40,40 +40,54 @@ with col_neuron:
         #st.markdown(lif.LIFNeuron.getEquationDescription(neuron))
         # st.text(lif.LIFNeuron.getProperties)
         
+
+
+              # Define a function that takes two values as input and returns their product
+
+
+
+
+
+
+
+
+
+
+
+
         with st.expander("Edit Properties"):
-            for property in lif.LIFNeuron.getProperties(neuron):
-              label = property[0]
-              min_val = property[1]
-              max_val = property[2]
-              default_val = property[3]
+            
+            def updateValues(x, y,z):
+                return x, y, z
+            
+            LIFProperties = neuron.getProperties()
 
-              propertySlider = st.slider(label, min_val, max_val, default_val)
-    
-              def updateLIFNeuronProperties(property):
-                valReturn = 0
-                propertyName = str(property[0])
-                #st.text("property:" + str(property[0]))
-                propertyValue = propertySlider
+            value_i_mean = st.slider(LIFProperties[0][0], LIFProperties[0][1],LIFProperties[0][2],LIFProperties[0][3],key="slider_i_mean")
+            value_vth = st.slider(LIFProperties[1][0], LIFProperties[1][1],LIFProperties[1][2],LIFProperties[1][3],key="slider_vth")
+            value_v_reset = st.slider(LIFProperties[2][0], LIFProperties[2][1],LIFProperties[2][2],LIFProperties[2][3],key="slider_v_reset")
 
-                if propertyName == "Input Current Mean (25e-11)":
-                    lif.LIFNeuron.GenerateInputCurrent(neuron,10)
-                elif propertyName == "Membrane Treshold (-50e-3)":
-                    lif.LIFNeuron.setVth = propertyValue
-                    valReturn = lif.LIFNeuron.getVth(neuron)
-                
-                
-                return valReturn
-              
-              st.write('Output:', updateLIFNeuronProperties(property))
+            # Call the function with the selected values and display the result
+            result = updateValues(value_i_mean, value_vth, value_v_reset)
+            st.write("The product of", value_i_mean, "and", value_vth, "and", value_v_reset, "is", result)
+
         
+        st.text(result)
+        x,y,z = result
+       # neuron.setVth(y)
+        neuron.setV_Reset(z)
 
 
 
-       
+        # mynym = updateLIFNeuronProperties(property)   
+        # st.text("NUMER" + str(mynym))
+
+
+        #neuron.setV_Reset(mynym)
+        #neuron.getV_Reset()
 
         st.text("Model")
 
-        # vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
+        vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
 
         st.pyplot(vMFig)
         st.pyplot(IFig)
@@ -112,4 +126,3 @@ with col_neuron:
 with col_network:
       st.subheader("Network")
       # st.pyplot(lif.LIFNeuron.clickableFig())
-      

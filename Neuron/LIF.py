@@ -47,7 +47,8 @@ class LIFNeuron:
 
         self.properties = [
                             ['Input Current Mean (25e-11)',15,35,25],
-                            ['Membrane Treshold (-50e-3)',-60,-40,-50]
+                            ['VTH (50e-3)',90e-3  ,30e-3  ,50e-3],
+                            ['V Reset(-70e-3)', -90e-3,-50e-3,-70e-3]
                             ]
 
     
