@@ -71,9 +71,9 @@ with col_neuron:
             st.write("The product of", value_i_mean, "and", value_vth, "and", value_v_reset, "is", result)
 
         
-        st.text(result)
+        # st.text(result)
         x,y,z = result
-       # neuron.setVth(y)
+        neuron.setVth(y)
         neuron.setV_Reset(z)
 
 
@@ -125,4 +125,5 @@ with col_neuron:
 
 with col_network:
       st.subheader("Network")
-      # st.pyplot(lif.LIFNeuron.clickableFig())
+      #value_123 = st.slider("ivonne",float(5e-10),float(15e-10),float(10e-10),key="sliderdope")
+    
