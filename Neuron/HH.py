@@ -5,6 +5,8 @@ class HHNeuron:
         self.equation2 = "\\frac{dh}{dt} = \\frac{(h_∞(V) - h)}{τ_h(V)}"
         self.equation3 = "\\frac{dn}{dt}  = \\frac{(n_∞(V) - n)}{τ_n(V)}"
         self.equation4 = "\\frac{dm}{dt}  = \\frac{(m_∞(V) - m)}{τ_m(V)}"
+        self.equation5 = "Cm \\frac{dV}{dt} = -g_Nam^3h(V-ENa) - g_K*n^4(V-EK) - g_L(V-EL) + I"
+        self.equation6 = "Cm \\frac{dV}{dt} = (V_k - V)g_k(v,t) + (v_Na - V)"
          
         self.properties = ['Membrane Potential']
 

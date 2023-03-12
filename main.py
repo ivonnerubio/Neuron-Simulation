@@ -113,6 +113,8 @@ with col_neuron:
           st.latex(hh.neuron.equation2)
           st.latex(hh.neuron.equation3)
           st.latex(hh.neuron.equation4)
+          st.latex(hh.neuron.equation5)
+          st.latex(hh.neuron.equation6)
 
           with st.expander("Edit Properties"):
               for property in hh.neuron.properties:
