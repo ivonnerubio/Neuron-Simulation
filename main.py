@@ -20,14 +20,14 @@ st.title("Neuron Simulation")
 
 neuron_type = ['Select Neuron','Leaky Fire-and-Integrate (LIF)','Hodgkin-Huxley (HH)', 'FitzHugh-Nagumo Model (FHN)','Morris-Lecar Model (ML)','AdEx Model (Adaptive Exponential Integrate-and-Fire)']
 
+selected_neuron_type = st.selectbox("Choose a neuron:", neuron_type)
 col_neuron, col_network = st.columns(2)
 
 
 
 with col_neuron:
     st.subheader("Neuron")
-    selected_neuron_type = st.selectbox("Choose a neuron:", neuron_type)
-    st.text("Description")
+    st.markdown("**Description**")
     neuron = lif.LIFNeuron()
     vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
     
@@ -37,10 +37,9 @@ with col_neuron:
     # LIF Neuron
     if(selected_neuron_type == neuron_type[1]):
         st.caption(lif.LIFNeuron.getDescription(neuron))
-        st.text("Equation")
+        st.markdown("**Equation**")
         st.latex(lif.LIFNeuron.getEquation(neuron))
-        st.text("Circuit")
-        st.image(neuron.circuit)
+
         #st.markdown(lif.LIFNeuron.getEquationDescription(neuron))
         # st.text(lif.LIFNeuron.getProperties)
         
@@ -58,7 +57,7 @@ with col_neuron:
 
 
 
-
+        st.markdown("**Adjust Model**")
         with st.expander("Edit Properties"):
             
             def updateValues(x, y,z):
@@ -72,7 +71,7 @@ with col_neuron:
 
             # Call the function with the selected values and display the result
             result = updateValues(value_i_mean, value_vth, value_v_reset)
-            st.write("The product of", value_i_mean, "and", value_vth, "and", value_v_reset, "is", result)
+            #st.write("The product of", value_i_mean, "and", value_vth, "and", value_v_reset, "is", result)
 
         
         # st.text(result)
@@ -89,12 +88,14 @@ with col_neuron:
         #neuron.setV_Reset(mynym)
         #neuron.getV_Reset()
 
-        st.text("Model")
+        #st.text("Model")
 
         vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
+        st.markdown("**Circuit**")
+        st.image(neuron.circuit, width=500, use_column_width=True)
 
-        st.pyplot(vMFig)
-        st.pyplot(IFig)
+        # st.pyplot(vMFig)
+        # st.pyplot(IFig)
         # st.pyplot(lif.LIFNeuron.plotVm(t_range,v))
 
         # st.pyplot(lif.LIFNeuron.plotInputCurrent(t_range, input_current))
@@ -114,11 +115,11 @@ with col_neuron:
           neuron_hh = hh.HHNeuron()
           st.caption(neuron_hh.description)
 
-          st.latex(neuron_hh.equation1)
-          st.latex(neuron_hh.equation2)
-          st.latex(neuron_hh.equation3)
-          st.latex(neuron_hh.equation4)
-          st.latex(neuron_hh.equation5)
+          #st.latex(neuron_hh.equation1)
+          #st.latex(neuron_hh.equation2)
+          #st.latex(neuron_hh.equation3)
+          #st.latex(neuron_hh.equation4)
+          #st.latex(neuron_hh.equation5)
           st.latex(neuron_hh.equation6)
           
 
@@ -127,11 +128,17 @@ with col_neuron:
                   property = st.slider(property, 0, 130, 25)
 
 
+          st.image(neuron_hh.circuit)
+
+
 
 
           
 
 with col_network:
-      st.subheader("Network")
+      st.subheader("Model")
+      if(selected_neuron_type == neuron_type[1]):
+        st.pyplot(vMFig)
+        st.pyplot(IFig)
       #value_123 = st.slider("ivonne",float(5e-10),float(15e-10),float(10e-10),key="sliderdope")
     

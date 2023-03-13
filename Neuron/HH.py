@@ -1,3 +1,6 @@
+from PIL import Image
+
+
 class HHNeuron:
     def __init__(self):
         self.description = "The model describes the membrane potential of a neuron as the result of ionic currents flowing across its membrane, specifically sodium (Na) and potassium (K) ions. The model uses four equations to describe the time-varying changes in the ionic currents and in the membrane potential."
@@ -10,6 +13,8 @@ class HHNeuron:
         self.properties = ['Membrane Potential']
 
         self.propertiesDescriptions = ["im","total"]
+
+        self.circuit = Image.open('Neuron/Circuit Models/HH Circuit.jpg')
 
         #https://www.bonaccorso.eu/2017/08/19/hodgkin-huxley-spiking-neuron-model-python/
         self.gL = 3e-6          # ms/mm^2
