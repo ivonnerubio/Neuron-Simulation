@@ -32,7 +32,7 @@ with col_neuron:
     vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
     
 
-    #neuron = lif.LIFNeuron(-70e-3,-50e-3,1999)
+
    
     # LIF Neuron
     if(selected_neuron_type == neuron_type[1]):
@@ -142,3 +142,14 @@ with col_network:
         st.pyplot(IFig)
       #value_123 = st.slider("ivonne",float(5e-10),float(15e-10),float(10e-10),key="sliderdope")
     
+
+
+
+
+
+
+def getLIFNeuronData():
+    LIFCaption = neuron.getDescription
+    LIFEquation = neuron.getEquation
+    LIFCircuit = neuron.getCircuit
+    return LIFCaption,LIFEquation,LIFCircuit

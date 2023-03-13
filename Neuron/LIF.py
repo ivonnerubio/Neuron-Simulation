@@ -266,3 +266,6 @@ class LIFNeuron:
         print("Properties: ", self.properties)
         return self.getProperties
     
+
+    def getCircuit(self):
+        return self.circuit
