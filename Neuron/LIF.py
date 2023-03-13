@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 
 
 class LIFNeuron:
@@ -51,6 +52,7 @@ class LIFNeuron:
                             ['V Reset(-70e-3)', -80e-3,-60e-3,-70e-3]
                             ]
 
+        self.circuit = Image.open('Neuron/Circuit Models/LIF Circuit.png')
     
 
     # Set random number generator

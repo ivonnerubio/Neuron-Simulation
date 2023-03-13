@@ -30,13 +30,17 @@ with col_neuron:
     st.text("Description")
     neuron = lif.LIFNeuron()
     vMFig, IFig = lif.LIFNeuron.modelNeuron(neuron)
+    
 
     #neuron = lif.LIFNeuron(-70e-3,-50e-3,1999)
    
     # LIF Neuron
     if(selected_neuron_type == neuron_type[1]):
         st.caption(lif.LIFNeuron.getDescription(neuron))
+        st.text("Equation")
         st.latex(lif.LIFNeuron.getEquation(neuron))
+        st.text("Circuit")
+        st.image(neuron.circuit)
         #st.markdown(lif.LIFNeuron.getEquationDescription(neuron))
         # st.text(lif.LIFNeuron.getProperties)
         
@@ -107,14 +111,16 @@ with col_neuron:
 
     # HH Neuron
     elif(selected_neuron_type == neuron_type[2]):
-          st.caption(hh.neuron.description)
+          neuron_hh = hh.HHNeuron()
+          st.caption(neuron_hh.description)
 
-          st.latex(hh.neuron.equation1)
-          st.latex(hh.neuron.equation2)
-          st.latex(hh.neuron.equation3)
-          st.latex(hh.neuron.equation4)
-          st.latex(hh.neuron.equation5)
-          st.latex(hh.neuron.equation6)
+          st.latex(neuron_hh.equation1)
+          st.latex(neuron_hh.equation2)
+          st.latex(neuron_hh.equation3)
+          st.latex(neuron_hh.equation4)
+          st.latex(neuron_hh.equation5)
+          st.latex(neuron_hh.equation6)
+          
 
           with st.expander("Edit Properties"):
               for property in hh.neuron.properties:
