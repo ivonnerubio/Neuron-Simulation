@@ -1,0 +1,4 @@
+# flyctl launch added from bmnn/.gitignore
+# created by virtualenv automatically
+bmnn/**/*
+fly.toml

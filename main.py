@@ -18,7 +18,8 @@ st.markdown(hide_st_style, unsafe_allow_html=True)
 
 st.title("Neuron Simulation")
 
-neuron_type = ['Select Neuron','Leaky Fire-and-Integrate (LIF)','Hodgkin-Huxley (HH)', 'FitzHugh-Nagumo Model (FHN)','Morris-Lecar Model (ML)','AdEx Model (Adaptive Exponential Integrate-and-Fire)']
+neuron_type = ['Select Neuron','Leaky Fire-and-Integrate (LIF)','Hodgkin-Huxley (HH)']
+#neuron_type = ['Select Neuron','Leaky Fire-and-Integrate (LIF)','Hodgkin-Huxley (HH)', 'FitzHugh-Nagumo Model (FHN)','Morris-Lecar Model (ML)','AdEx Model (Adaptive Exponential Integrate-and-Fire)']
 
 selected_neuron_type = st.selectbox("Choose a neuron:", neuron_type)
 col_neuron, col_network = st.columns(2)
@@ -60,24 +61,24 @@ with col_neuron:
         st.markdown("**Adjust Model**")
         with st.expander("Edit Properties"):
             
-            def updateValues(x, y,z):
-                return x, y, z
+            def updateValues(x, y):
+                return x, y
             
             LIFProperties = neuron.getProperties()
-
-            value_i_mean = st.slider(LIFProperties[0][0], LIFProperties[0][1],LIFProperties[0][2],LIFProperties[0][3],key="slider_i_mean")
-            value_vth = st.slider(LIFProperties[1][0], LIFProperties[1][1],LIFProperties[1][2],LIFProperties[1][3],key="slider_vth")
-            value_v_reset = st.slider(LIFProperties[2][0], LIFProperties[2][1],LIFProperties[2][2],LIFProperties[2][3],key="slider_v_reset")
+            #value_i_mean = st.slider(LIFProperties[0][0], LIFProperties[0][1],LIFProperties[0][2],LIFProperties[0][3],key="slider_i_mean")
+            value_vth = st.slider(LIFProperties[0][0], LIFProperties[0][1],LIFProperties[0][2],LIFProperties[0][3],key="slider_i_mean")
+            value_v_reset = st.slider(LIFProperties[1][0], LIFProperties[1][1],LIFProperties[1][2],LIFProperties[1][3],key="slider_vth")
+            #value_v_reset = st.slider(LIFProperties[2][0], LIFProperties[2][1],LIFProperties[2][2],LIFProperties[2][3],key="slider_v_reset")
 
             # Call the function with the selected values and display the result
-            result = updateValues(value_i_mean, value_vth, value_v_reset)
+            result = updateValues(value_vth, value_v_reset)
             #st.write("The product of", value_i_mean, "and", value_vth, "and", value_v_reset, "is", result)
 
         
         # st.text(result)
-        x,y,z = result
-        neuron.setVth(y)
-        neuron.setV_Reset(z)
+        x,y = result
+        neuron.setVth(x)
+        neuron.setV_Reset(y)
 
 
 

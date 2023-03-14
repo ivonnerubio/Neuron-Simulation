@@ -47,11 +47,15 @@ class LIFNeuron:
         #                     ]
 
         self.properties = [
-                            ['Input Current Mean (25e-11)',20e-5,35e-5,25e-5],
                             ['VTH (50e-3)',-60e-3  ,-40e-3  ,-50e-3],
                             ['V Reset(-70e-3)', -80e-3,-60e-3,-70e-3]
                             ]
 
+        # self.properties = [
+        #                     ['Input Current Mean (25e-11)',20e-5,35e-5,25e-5],
+        #                     ['VTH (50e-3)',-60e-3  ,-40e-3  ,-50e-3],
+        #                     ['V Reset(-70e-3)', -80e-3,-60e-3,-70e-3]
+        #                     ]
         self.circuit = Image.open('Neuron/Circuit Models/LIF Circuit.png')
     
 
