@@ -116,12 +116,25 @@ with col_neuron:
           neuron_hh = hh.HHNeuron()
           st.caption(neuron_hh.description)
 
-          #st.latex(neuron_hh.equation1)
-          #st.latex(neuron_hh.equation2)
-          #st.latex(neuron_hh.equation3)
-          #st.latex(neuron_hh.equation4)
-          #st.latex(neuron_hh.equation5)
-          st.latex(neuron_hh.equation6)
+          st.latex(neuron_hh.equationIm)
+
+          col1, col2, col3 = st.columns([1, 1, 1])
+          with col1:
+              st.latex(neuron_hh.equationNa)
+              st.caption("The sodium conductance is time-dependent and voltage-dependent")
+          with col2:
+              st.latex(neuron_hh.equationK)
+              st.caption("The potassium conductance is time-dependent and voltage-dependent")
+          with col3:
+              st.latex(neuron_hh.equationL)
+              st.caption("The leak conductance is neither time-dependent nor voltage-dependent")
+
+
+          
+          
+          
+          
+
           
 
           with st.expander("Edit Properties"):

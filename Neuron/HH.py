@@ -10,6 +10,12 @@ class HHNeuron:
         self.equation4 = "\\frac{dm}{dt}  = \\frac{(m_∞(V) - m)}{τ_m(V)}"
         self.equation5 = "Cm \\frac{dV}{dt} = -g_Nam^3h(V-ENa) - g_K*n^4(V-EK) - g_L(V-EL) + I"
         self.equation6 = "Cm \\frac{dV}{dt} = \overline{g}_L (V-E_L) + \overline{g}_K n^4(V-E_K) + \overline{g}_{Na} m^3h(V-E_{Na})"         
+        
+        self.equationIm = "I_{m} = I_{Na} + I_{K} + I_{L}"
+        self.equationNa = "I_{Na} = G_{Na}(V,t)(V-E_{Na})"
+        self.equationK = "I_{K} = G_{K}(V,t)(V-E_{K})"
+        self.equationL = "I_{L} = G_{L}(V-E_{L})"
+        
         self.properties = ['Membrane Potential']
 
         self.propertiesDescriptions = ["im","total"]
@@ -24,6 +30,8 @@ class HHNeuron:
         self.eL = -5.4387e-2    # Voltage
         self.eK = -7.7e-2       # Voltage
         self.eNa = 5e-2         # Voltage
+
+        
 
 
 neuron = HHNeuron()
